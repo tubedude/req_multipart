@@ -1,10 +1,36 @@
 defmodule ReqMulti do
   @moduledoc """
-  A [Req](https://github.com/wojtekmach/req) plugin to handle multipart upload
+  A [Req](https://github.com/wojtekmach/req) plugin for sending
+  `multipart/form-data` request bodies.
+
+  It builds on the [`multipart`](https://hex.pm/packages/multipart) library:
+  you assemble a `Multipart` struct and hand it to Req through the `:multi`
+  option. The plugin then sets the `Content-Type` (with the multipart
+  boundary) and `Content-Length` headers and streams the encoded body.
+
+  ## Usage
+
+      multipart =
+        Multipart.new()
+        |> Multipart.add_part(Multipart.Part.text_field("hello world", "greeting"))
+
+      Req.new()
+      |> ReqMulti.attach()
+      |> Req.post!(multi: multipart)
+
+  ## Options
+
+    * `:multi` - a `%Multipart{}` struct to encode and send as the request
+      body. When set to any other value, the request raises an
+      `ArgumentError`. When omitted, the request is sent unchanged.
+
   """
 
   @doc """
-  Attach to your Req.Request to start using it.
+  Attaches the plugin to a `Req.Request`, registering the `:multi` option.
+
+  Call once when building your request. See the module documentation for the
+  `:multi` option and a full example.
 
   ## Examples
 

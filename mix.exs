@@ -1,7 +1,7 @@
 defmodule ReqMulti.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.1.1"
   @source_url "https://github.com/tubedude/req_multipart"
 
   def project do
@@ -46,9 +46,9 @@ defmodule ReqMulti.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:req, "~> 0.5.6"},
+      {:req, "~> 0.5"},
       {:plug, "~> 1.0"},
-      {:multipart, "~> 0.4.0"},
+      {:multipart, "~> 0.4"},
 
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
