@@ -18,6 +18,26 @@ defmodule ReqMulti do
       |> ReqMulti.attach()
       |> Req.post!(multi: multipart)
 
+  ## Building the multipart
+
+  The `%Multipart{}` struct comes from the
+  [`multipart`](https://hexdocs.pm/multipart) library. Start with
+  `Multipart.new/0` and add one part per field or attachment with
+  `Multipart.add_part/2`, using a builder from `Multipart.Part`:
+
+      Multipart.new()
+      # a plain form field
+      |> Multipart.add_part(Multipart.Part.text_field("hello world", "greeting"))
+      # a file read from disk
+      |> Multipart.add_part(Multipart.Part.file_field("/path/to/photo.png", "photo"))
+      # a file whose bytes you already hold
+      |> Multipart.add_part(Multipart.Part.file_content_field("report.pdf", pdf, "document"))
+
+  Other common builders are `Multipart.Part.stream_field/3` and the
+  lower-level `binary_body/2`/`file_body/2`. See the
+  [`Multipart.Part`](https://hexdocs.pm/multipart/Multipart.Part.html) docs
+  for the full list and their optional `headers`/`opts` arguments.
+
   ## Options
 
     * `:multi` - a `%Multipart{}` struct to encode and send as the request
